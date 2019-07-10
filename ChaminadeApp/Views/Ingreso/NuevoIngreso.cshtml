@@ -1,0 +1,625 @@
+﻿
+@using ModelDao;
+@using ModelEntity;
+
+@model Tuple<Ingreso>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/alertify.min.js"></script>
+<link href="~/Scripts/alertify.core.css" rel="stylesheet" />
+<link href="~/Scripts/alertify.default.css" rel="stylesheet" />
+@*<meta http-equiv="refresh" content="6">*@
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("a[rel='pop-up']").click(function () {
+            var caracteristicas = "height=550,width=1000,scrollTo,resizable=1,scrollbars=1,location=0";
+            nueva = window.open(this.href, 'popup', caracteristicas);
+
+
+            return false;
+        });
+        //botones
+
+
+
+
+        $('input[type="button"]').on('click', function (e) {
+            //alert($(this).attr("name"));
+            var idDetalleIngreso = $(this).attr("name");
+            var folioIngreso = $("#FolioIngreso").text();
+            //alert(folioIngreso);
+
+            if (idDetalleIngreso > 0)
+           {
+                var envio = "{idDetalleIngreso:'" + idDetalleIngreso + "',folioIngreso:'" + folioIngreso + "', idUsuario: '" + idDetalleIngreso + "'";
+            envio += "}";
+            var json = eval("(" + envio + ')');
+
+            //alertify.alert(json.val);
+            console.info(json);
+            
+            $.ajax({
+                url: "EliminaDetalleIngreso",
+                data: JSON.stringify(json),
+                type: "POST",
+                async: false,//this makes the ajax-call blocking
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'json',
+                success: function (response) {
+                    //alertify.alert(response);
+                    alert(response);
+                    valid = response.valid;
+                    if (response == "0") {
+                        //alertify.alert(response);
+                        alert("Detalle Elimina con Éxito");
+                        //setTimeout(location.href = "index", 10000)
+                        //setTimeout(location.href = "javascript: window.history.go(-1);window.location = window.location.href", 10000);
+                        //alertify.alert("window.history.go(-1)");
+                        setTimeout("javascript:window.location = document.referrer;", 1);
+
+                        //location.href = "index";
+                    }
+                    else {
+
+                    }
+
+                },
+                error: function (error) {
+                    //alertify.alert(error);
+                    alert(error);
+
+                }
+            });
+                }
+        });
+
+        //botones
+        $("#agregar").click(function () {
+
+            var folioIngreso = $("#FolioIngreso").text();
+            var pagadorIngreso = $("#PagadorIngreso").val();
+            var idFormaPago = $("#IdFormaPago").val();
+            var fechaPago = "01-01-1900";//$("#FechaPago").val();
+            var observacionesIngreso = $("#ObservacionesIngreso").val();
+            var idEstadoIngreso = 0;
+            var rutMiembro = $("#rutMiembro").val();;
+            var idEvento = $("#IdEvento").val();
+            var observacionesDetalle = $("#ObservacionesDetalle").val();
+            var montoDetalle = $("#MontoDetalle").val();;
+            var idUsuario = "Prueba";
+
+
+            //actualizaEncabezado(folioIngreso, pagadorIngreso, idFormaPago, fechaPago, observacionesIngreso, idEstadoIngreso, idUsuario);
+
+            //insertaDetalle(folioIngreso, rutMiembro, idEvento, observacionesDetalle, montoDetalle, idUsuario);
+
+            
+
+            var envio = "{folioIngreso:'" + folioIngreso + "',pagadorIngreso:'" + pagadorIngreso + "', idFormaPago: '" + idFormaPago + "', fechaPago: '" + fechaPago + "', observacionesIngreso: '" + observacionesIngreso + "', idEstadoIngreso: '" + idEstadoIngreso + "', idUsuario: '" + idUsuario + "',rutMiembro:'" + rutMiembro + "', idEvento:'" + idEvento + "',observacionesDetalle:'" + observacionesDetalle + "',montoDetalle:'" + montoDetalle + "'";
+            envio += "}";
+            var json = eval("(" + envio + ')');
+
+            alert(json);
+            console.info(json);
+            alert('Estoy en la funcion');
+            $.ajax({
+                url: "InsertaDetalleIngreso",
+                data: JSON.stringify(json),
+                type: "POST",
+                async: false,//this makes the ajax-call blocking
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'json',
+                success: function (response) {
+                    //alertify.alert(response);
+                    alert(response);
+                    valid = response.valid;
+                    if (response == "0") {
+                        //alertify.alert(response);
+                        alert("Detalle Elimina con Éxito");
+                        //setTimeout(location.href = "index", 10000)
+                        //setTimeout(location.href = "javascript: window.history.go(-1);window.location = window.location.href", 10000);
+                        //alertify.alert("window.history.go(-1)");
+                        setTimeout("javascript:window.location = document.referrer;", 1);
+
+                        //location.href = "index";
+                    }
+                    else {
+
+                    }
+
+                },
+                error: function (error) {
+                    //alertify.alert(error);
+                    alert(error);
+
+                }
+            });
+
+
+           
+            //actualizaEncabezado(folioIngreso, pagadorIngreso, idFormaPago, fechaPago, observacionesIngreso, idEstadoIngreso, idUsuario);
+
+        });
+
+        $("#actualizar").click(function () {
+
+            var folioIngreso = $("#FolioIngreso").text();
+            var pagadorIngreso = $("#PagadorIngreso").val();
+            var idFormaPago = $("#IdFormaPago").val();
+            var fechaPago = "01-01-1900";//$("#FechaPago").val();
+            var observacionesIngreso = $("#ObservacionesIngreso").val();
+            var idEstadoIngreso = 0;
+            var idUsuario = "Prueba";
+
+            var envio = "{folioIngreso:'" + folioIngreso + "',pagadorIngreso:'" + pagadorIngreso + "', idFormaPago: '" + idFormaPago + "', fechaPago: '" + fechaPago + "', observacionesIngreso: '" + observacionesIngreso + "', idEstadoIngreso: '" + idEstadoIngreso + "', idUsuario: '" + idUsuario + "'";
+            envio += "}";
+            var json = eval("(" + envio + ')');
+
+            //alert(json);
+            console.info(json);
+            //alert('Estoy en la funcion');
+            $.ajax({
+                url: "ActualizaEncabezado",
+                data: JSON.stringify(json),
+                type: "POST",
+                async: false,//this makes the ajax-call blocking
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'json',
+                success: function (response) {
+                    //alertify.alert(response);
+                    //alert(response);
+                    valid = response.valid;
+                    if (response == "0") {
+                        //alertify.alert(response);
+                        alert("Actualiza Ingreso");
+                        //setTimeout(location.href = "index", 10000)
+                        //setTimeout(location.href = "javascript: window.history.go(-1);window.location = window.location.href", 10000);
+                        //alertify.alert("window.history.go(-1)");
+                        setTimeout("javascript:window.location = document.referrer;", 1);
+
+                        //location.href = "index";
+                    }
+                    else {
+
+                    }
+
+                },
+                error: function (error) {
+                    //alertify.alert(error);
+                    alert(error);
+
+                }
+            });
+
+
+
+            //actualizaEncabezado(folioIngreso, pagadorIngreso, idFormaPago, fechaPago, observacionesIngreso, idEstadoIngreso, idUsuario);
+
+        });
+
+        $("#finalizar").click(function () {
+
+            var folioIngreso = $("#FolioIngreso").text();
+            var pagadorIngreso = $("#PagadorIngreso").val();
+            var idFormaPago = $("#IdFormaPago").val();
+            var fechaPago = "01-01-1900";//$("#FechaPago").val();
+            var observacionesIngreso = $("#ObservacionesIngreso").val();
+            var idEstadoIngreso = 0;
+            var idUsuario = "Prueba";
+
+            var envio = "{folioIngreso:'" + folioIngreso + "',pagadorIngreso:'" + pagadorIngreso + "', idFormaPago: '" + idFormaPago + "', fechaPago: '" + fechaPago + "', observacionesIngreso: '" + observacionesIngreso + "', idEstadoIngreso: '" + idEstadoIngreso + "', idUsuario: '" + idUsuario + "'";
+            envio += "}";
+            var json = eval("(" + envio + ')');
+
+            //alert(json);
+            console.info(json);
+            //alert('Estoy en la funcion');
+            $.ajax({
+                url: "ActualizaEncabezado",
+                data: JSON.stringify(json),
+                type: "POST",
+                async: false,//this makes the ajax-call blocking
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'json',
+                success: function (response) {
+                    //alertify.alert(response);
+                    //alert(response);
+                    valid = response.valid;
+                    if (response == "0") {
+                        //alertify.alert(response);
+                        alert("Finaliza Ingreso");
+                        setTimeout(location.href = "index", 10000)
+                        //setTimeout(location.href = "javascript: window.history.go(-1);window.location = window.location.href", 10000);
+                        //alertify.alert("window.history.go(-1)");
+                        //setTimeout("javascript:window.location = document.referrer;", 1);
+
+                        //location.href = "index";
+                    }
+                    else {
+
+                    }
+
+                },
+                error: function (error) {
+                    //alertify.alert(error);
+                    alert(error);
+
+                }
+            });
+
+
+
+            //actualizaEncabezado(folioIngreso, pagadorIngreso, idFormaPago, fechaPago, observacionesIngreso, idEstadoIngreso, idUsuario);
+
+        });
+
+
+    });
+    //variables
+    var total = 0;
+    var valor = 0;
+    var subtotal = 0;
+
+    function actualizaEncabezado(folioIngreso, pagadorIngreso, idFormaPago, fechaPago, observacionesIngreso, idEstadoIngreso, idUsuario) {
+
+       
+        alert((folioIngreso + ',' + pagadorIngreso + ',' + idFormaPago + ',' + fechaPago + ',' + observacionesIngreso));
+
+        var envio = "{folioIngreso:'" + folioIngreso + "',pagadorIngreso:'" + pagadorIngreso + "', idFormaPago: '" + idFormaPago + "', fechaPago: '" + fechaPago + "', observacionesIngreso: '" + observacionesIngreso + "', idEstadoIngreso: '" + idEstadoIngreso + "', idUsuario: '" + idUsuario + "'";
+        envio += "}";
+        var json = eval("(" + envio + ')');
+
+        //alert(json);
+        console.info(json);
+        alert('Estoy en la funcion');
+        $.ajax({
+            url: "ActualizaEncabezado",
+            data: JSON.stringify(json),
+            //type: "POST",
+            type: "get",
+            async: false,//this makes the ajax-call blocking
+            contentType: 'application/json;charset=UTF-8',
+            dataType: 'json',
+            
+            success: function (response) {
+                //alertify.alert(response);
+                //alert(response.valid);
+                valid = response.valid;
+                if (response == "0") {
+                    //alertify.alert(response);
+                    alert("Actualiza Encabezado");
+                    //setTimeout(location.href = "index", 10000)
+                    //setTimeout(location.href = "javascript: window.history.go(-1);window.location = window.location.href", 10000);
+                    //alertify.alert("window.history.go(-1)");
+                    //setTimeout("javascript:window.location = document.referrer;", 1);
+
+                    //location.href = "index";
+                }
+                else {
+                    alert("Error");
+                }
+
+            },
+            error: function (error) {
+                //alertify.alert(error);
+                alert(error);
+
+            }
+            
+
+
+        });
+        alert("Fin Funcion");
+
+    }
+
+    function obtenerMiembro(Miembro) {
+
+        var watchclose = setInterval(function () {
+            $("#rutMiembro").val(Miembro.RutMiembro);
+            $("#nombreCompletoMiembro").val(Miembro.NombreCompletoMiembro);
+            $("#unidadMiembro").val(Miembro.Unidad);
+        });
+    }
+
+    function fn_agregar() {
+
+        cadena = "<tr>"
+        cadena = cadena + "<td>" + $("#idproducto").val() + "</td>";
+        cadena = cadena + "<td>" + $("#nombreproducto").val() + "</td>";
+        cadena = cadena + "<td>" + $("#cantidad").val() + "</td>";
+        cadena = cadena + "<td>" + $("#precio").val() + "</td>";
+        cadena = cadena + "<td>" + $("#descuento").val() + "</td>";
+
+        var y = 0;
+        var x = 0;
+        var des = 0;
+        y = $("#cantidad").val();
+        x = $("#precio").val();
+        des = $("#descuento").val();
+        subtotal = (x * y) - des;
+        cadena = cadena + "<td>" + subtotal + "</td>"
+        cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
+        $("#detalle tbody").append(cadena);
+        sumar();
+        fn_dar_eliminar();
+        limpiarCliente();
+        limpiar();
+    };
+    function limpiar() {
+        $("#nombreproducto").val("");
+        $("#idproducto").val("");
+        $("#precio").val("");
+        $("#ListaProducto").val("");
+        $("#cantidad").val("");
+        $("#descuento").val("");
+    }
+    function limpiarCliente() {
+        $("tbody tr #txtnombre").val('');
+        $("tbody tr #idCliente").val('');
+        $("tbody tr #codigoCliente").val('');
+    }
+    function limpiarDetalle() {
+        $("#detalle tbody tr").val("");
+    }
+    function sumar() {
+        total = total + subtotal;
+        console.info(total);
+        $("#TotalaPagar").val(total);
+
+    }
+    function restar() {
+        total = total - valor;
+        $("#TotalaPagar").val(total);
+    }
+    function fn_dar_eliminar() {
+        $("a.elimina").click(function () {
+            valor = $(this).parents("tr").find("td").eq(5).html();
+
+            $(this).parents("tr").fadeOut("normal", function () {
+                $(this).remove();
+                restar();
+            });
+        });
+    };
+
+
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<table id="encabezado" class="table">
+    <thead>
+        <tr style="font-size:20px;">
+            <th>
+                Comprobante de Ingreso
+            </th>
+        </tr>
+        <tr style="font-size:20px;">
+            <th>
+                Folio:
+                @*Html.TextBox("FolioIngreso", this.Model.Item1.FolioIngreso, null, new { @class = " form-control" })*@
+                @Html.Label("FolioIngreso", this.Model.Item1.FolioIngreso.ToString(), new { ID = "FolioIngreso" })
+
+            </th>
+            <th>
+                Fecha
+                @Html.Label("HoraInicio", DateTime.Now.ToLocalTime().ToString(), new { ID = "HoraInicio" })
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="font-size:20px;">
+            <td colspan="2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Encabezado</div>
+                    <table id="encabezado" class="table" style="font-size:15px;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Pagado por
+                                    @Html.TextBoxFor(m => m.Item1.PagadorIngreso, null, new { @class = " form-control",@id="PagadorIngreso" })
+                                </td>
+                                <td>
+                                    Forma Pago
+                                    <div class="col-md-12 dropdown">
+                                        @*Html.DropDownListFor(m => m.Item3.IdTipoGestion, ViewBag.ListaTipoGestion as SelectList, "Seleccione Tipo Gestión", htmlAttributes: new { @class = "form-control" })*@
+                                        @*Html.DropDownList("ListaFormaPago", ViewBag.ListaFormaPago as SelectList, "Seleccione Tipo", htmlAttributes: new { @class = "form-control", @required = "required" })*@
+                                        @Html.DropDownListFor(m => m.Item1.IdFormaPago, ViewBag.ListaFormaPagos as SelectList, "Seleccione Forma Pago", htmlAttributes: new { @class = "form-control", @id="IdFormaPago" })
+                                    </div>
+
+                                </td>
+                                <td>
+                                    Fecha de Pago
+                                    @Html.EditorFor(m => m.Item1.FechaIngreso, new { htmlAttributes = new { @class = "form-control", @required = "required", @id="FechaPago", @style = "font-size:20px; font-weight:700;" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Observaciones
+                                    @Html.EditorFor(m => m.Item1.ObservacionesIngreso, new { htmlAttributes = new { @class = "form-control", @id = "ObservacionesIngreso",  @style = "font-size:20px; font-weight:700;" } })
+                                </td>
+
+                                <td>
+                                    Total Ingreso
+                                    @Html.EditorFor(m => m.Item1.TotalIngreso, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "font-size:20px; font-weight:700;" } })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                
+                                    <input class="btn btn-warning btn-lg" type="submit" name="actualzar" id="actualizar" value="Actualizar" />
+                                    <input class="btn btn-success btn-lg" type="submit" name="finalizar" id="finalizar" value="Finalizar" />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </td>
+
+        </tr>
+
+        <tr style="font-size:20px;">
+            <td colspan="2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Ingresar Detalle</div>
+                    <table id="encabezado" class="table" style="font-size:15px;">
+                        <tbody>
+                            <tr>
+                                <td style=" vertical-align:middle;text-align: center">
+                                    <a href="~/Miembro/ObtenerMiembro" rel="pop-up">
+                                        <input class="btn btn-warning btn-lg col-md-10" type="button" name="enlace_integrante" value="Buscar Integrante" />
+                                    </a>
+                                </td>
+                                <td>
+                                    Rut Integrante
+
+                                    <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="rutMiembro" readonly />
+
+
+                                </td>
+                                <td>
+                                    Nombre Integrante
+
+                                    <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="nombreCompletoMiembro" readonly />
+
+
+                                </td>
+                                <td>
+                                    Unidad
+                                    <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="unidadMiembro" readonly />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Evento
+                                    <div class="col-md-12 dropdown">
+                                        @Html.DropDownList("ListaEvento", ViewBag.ListaEventos as SelectList, "Seleccione Evento", htmlAttributes: new { @class = "form-control", @id = "IdEvento",  @required = "required" })
+                                    </div>
+
+                                </td>
+                                <td>
+                                    Observaciones
+                                    <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="ObservacionesDetalle" />
+                                    @*Html.EditorFor(m => m.Item1.ObservacionesIngreso, new { htmlAttributes = new { @class = "form-control", @id = "ObservacionesDetalle", @required = "required", @style = "font-size:20px; font-weight:700;" } })*@
+                                </td>
+
+                                <td>
+                                    Monto Ingreso
+                                    @*Html.Editor(m => m.Item1.TotalIngreso, new { htmlAttributes = new { @class = "form-control", @id = "MontoDetalle", @required = "required", @style = "font-size:20px; font-weight:700;" } })*@
+                                    <input style="font-size:20px; font-weight:700;" class="form-control" type="text" id="MontoDetalle" />
+                                </td>
+                                <td style=" vertical-align:middle;text-align: center">
+                                    <input class="btn btn-success btn-lg" type="submit" name="agregar" id="agregar" value="Agregar" />
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </td>
+
+        </tr>
+        <tr style="font-size:15px;">
+            <td colspan="2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Detalle Ingreso</div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr class="bg-primary">
+                                <th>RUT</th>
+                                <th>Nombre</th>
+                                <th>Unidad</th>
+                                <th>Evento</th>
+                                <th>Observaciones</th>
+                                <th>Monto Pago($)</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var objDetalleIngreso in ViewBag.ListaDetalleIngresos)
+                            {
+                            <tr>
+                                <td>@objDetalleIngreso.RutMiembro</td>
+                                <td>@objDetalleIngreso.NombreCompletoMiembro</td>
+                                <td>@objDetalleIngreso.NombreUnidad</td>
+                                <td>@objDetalleIngreso.NombreEvento</td>
+                                <td>@objDetalleIngreso.ObservacionesIngreso</td>
+                                <td>
+                                    @objDetalleIngreso.MontoIngreso
+                                </td>
+                                <td>
+                                    <input class="btn btn-danger" type="button" name="@objDetalleIngreso.IdDetalleIngreso" value="Eliminar">
+                                </td>
+
+                            </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </td>
+
+        </tr>
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#txtnueva").click(function () {
+            $.ajax({
+                success: function (res) {
+                    //alertify.alert("exito");
+                    window.location.reload().ajax();
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btnproductos").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "Seleccionar",
+                data: { idProducto: $("#ListaProducto").val() },
+                success: function (mensaje) {
+                    //alert(mensaje);
+                    //$("#idproducto").val(mensaje.Nombre);
+                    $(mensaje).each(function (index, item) {
+                        //recibir datos json
+                        $("#nombreproducto").val(item.Nombre),
+                            $("#idproducto").val(item.IdProducto),
+                            $("#precio").val(item.PrecioUnitario)
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+
+
